@@ -4,19 +4,17 @@
     <div class="content-in">
       <div class="search-out">
         <div class="search-in">
-        
           <div class="search-self-out">
-              <i class="el-icon-search search-self"></i>
-             <el-autocomplete
-            class="inline-input"
-            v-model="inputValue"
-            :fetch-suggestions="querySearch"
-            placeholder="请输入你的旺旺号或订单编号"
-            @select="handleSelect"
-          >
-          </el-autocomplete>
+            <i class="el-icon-search search-self"></i>
+            <el-input
+              class="inline-input"
+              placeholder="请输入你的旺旺号或订单编号"
+              v-model="inputValue"
+              clearable
+            >
+            </el-input>
           </div>
-          <div class="search-bt">查询</div>
+          <div class="search-bt" @click="search">查询</div>
         </div>
       </div>
       <div class="null-box"></div>
@@ -42,7 +40,7 @@
     <!-- 弹窗 -->
     <div class="popup" :class="popupClass">
       <div class="mask"></div>
-      <div class="layer">
+      <div class="layer" v-if="data">
         <div class="info">
           <div class="border1"></div>
           <div class="border2"></div>
@@ -57,11 +55,14 @@
               <p class="id" style="padding-bottom: 10px">
                 活动名称：{{ item.activityTitle }}
               </p>
-            </div>           
+            </div>
           </div>
         </div>
       </div>
-      <div class="btn" @click="hidePoup">我知道了</div>
+      <div v-else class="nodata">
+
+      </div>
+      <div class="btn" @click="hidePoup" v-if="data">我知道了</div>
     </div>
   </div>
 </template>
@@ -85,13 +86,21 @@ export default {
           "⑤ 礼包仅限天猫店（顾家家居官方旗舰店）使用。",
         ],
       },
-      popupClass: "show",
+      popupClass: "",
       tips: "恭喜您，中奖了",
       data: null,
     };
   },
- 
+  created(){
+    // this.getRules()
+  },
   methods: {
+    // 获取规则
+    getRules(){
+      https.post("/api/EcAutoTools/getDocument", '').then((res) => {
+       console.log(res)
+      });
+    },
     // 获取奖品详情
     search() {
       this.data = null;
@@ -104,6 +113,7 @@ export default {
             this.tips = "很遗憾，未中奖";
             return;
           }
+          this.popupClass = "show";
           this.data = res.data;
           this.data.forEach((ele) => {
             ele.date =
@@ -116,9 +126,9 @@ export default {
       });
     },
     // 关闭弹框
-    hidePoup(){
-      this.popupClass='hide'
-    }
+    hidePoup() {
+      this.popupClass = "hide";
+    },
   },
 };
 </script>
@@ -147,43 +157,43 @@ export default {
 }
 
 /* 搜索开始 */
-.search-out{
-    width: 90%;
-    height: 40px;
-    line-height: 0px;
-    position: absolute;
-    top: -30px;
-    left: 5%;
-    background-color: #ffffff;
-    border-radius: 5px;
+.search-out {
+  width: 90%;
+  height: 40px;
+  line-height: 0px;
+  position: absolute;
+  top: -30px;
+  left: 5%;
+  background-color: #ffffff;
+  border-radius: 5px;
 }
-.search-in{
-    width: 100%;
-    height: 100%;
-    text-align: left;
-    border-radius: 5px;
-    background-color: #E42727;
-    
-    overflow: hidden;
-    display: flex;
+.search-in {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  border-radius: 5px;
+  background-color: #e42727;
+
+  overflow: hidden;
+  display: flex;
 }
-.search-self-out{
+.search-self-out {
   flex: 10;
   position: relative;
 }
-.search-self{
-    color: #B2B2B2;
-    font-size: 14px;
-    text-align: left;
-    display: inline-block;
-    position: absolute;
-    left: 2%;
-    line-height:40px;
-    z-index: 100;
+.search-self {
+  color: #b2b2b2;
+  font-size: 14px;
+  text-align: left;
+  display: inline-block;
+  position: absolute;
+  left: 2%;
+  line-height: 40px;
+  z-index: 100;
 }
-.inline-input{
+.inline-input {
   flex: 2;
-  width: 100%; 
+  width: 100%;
 }
 .search-in /deep/ .el-input {
   width: 100%;
@@ -196,14 +206,14 @@ export default {
   padding-left: 25px;
   background: #fff5f5;
 }
-.search-bt{
-    width: 19%;
-    line-height: 40px;
-    text-align: center; 
-    display: inline-block;
-    background-color: #E42727;
-    font-size: 14px;
-    color: #ffffff;
+.search-bt {
+  width: 19%;
+  line-height: 40px;
+  text-align: center;
+  display: inline-block;
+  background-color: #e42727;
+  font-size: 14px;
+  color: #ffffff;
 }
 /* 搜索结束 */
 
@@ -212,42 +222,42 @@ export default {
   height: 30px;
 }
 /* 活动数名 */
-.active-instructions{
-    width: 90%;
-    background: #CE3131;
-    border: 2px solid #EE6057;
-    box-sizing: border-box;
-    border-radius: 8px;
-    margin: 0 auto ;
-    color: #FFE2B7;
+.active-instructions {
+  width: 90%;
+  background: #ce3131;
+  border: 2px solid #ee6057;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin: 0 auto;
+  color: #ffe2b7;
 }
-.active-title{
-    font-size: 20px;
-    text-align: center;
-    margin-top: 22px;
+.active-title {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 22px;
 }
-.active-rules{
-    font-size: 14px;
-    line-height: 24px;
-    padding: 20px;
+.active-rules {
+  font-size: 14px;
+  line-height: 24px;
+  padding: 20px;
 }
-.rules-reward{
-    text-align: left;
-    font-size: 14px;
+.rules-reward {
+  text-align: left;
+  font-size: 14px;
 }
-.rules-list{
-    text-align: left;
+.rules-list {
+  text-align: left;
 }
-.rules-remark{
-     text-align: left;
+.rules-remark {
+  text-align: left;
 }
-.cir{
-    width: 6px;
-    height: 6px;
-    background: #FFEDAB;
-    border-radius: 50%;
-    display: inline-block;
-    vertical-align: middle;
+.cir {
+  width: 6px;
+  height: 6px;
+  background: #ffedab;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
 }
 @keyframes showPopup {
   0% {
@@ -305,7 +315,7 @@ export default {
   z-index: 102;
   background-color: rgba(0, 0, 0, 0.6);
 }
-.layer {
+.layer{
   position: fixed;
   z-index: 103;
   left: 32px;
@@ -423,5 +433,13 @@ export default {
 
 .none {
   display: none;
+}
+.nodata{
+  position: fixed;
+  z-index: 103;
+  left: 32px;
+  right: 32px;
+  background: #fff;
+  top: 70%;
 }
 </style>

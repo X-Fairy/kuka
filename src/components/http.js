@@ -1,4 +1,5 @@
 import axios from 'axios'          //响应时间
+import qs from 'qs'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';        //配置请求头
 axios.defaults.baseURL = '';   //配置接口地址
 // http://dsecautotools.kukahome.com:9442
@@ -31,7 +32,7 @@ export function post(url, params) {
     return new Promise((resolve, reject) => {
         axios.post(url, params)
             .then(response => {
-                resolve(response);
+                resolve(response.data);
             }, err => {
                 reject(err);
             })
