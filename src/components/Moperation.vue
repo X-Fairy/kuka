@@ -4,15 +4,18 @@
     <div class="content-in">
       <div class="search-out">
         <div class="search-in">
-          <i class="el-icon-search search-self"></i>
-          <el-autocomplete
+        
+          <div class="search-self-out">
+              <i class="el-icon-search search-self"></i>
+             <el-autocomplete
             class="inline-input"
             v-model="inputValue"
             :fetch-suggestions="querySearch"
             placeholder="请输入你的旺旺号或订单编号"
             @select="handleSelect"
-          ></el-autocomplete>
-          <!-- <el-input class="search-input" v-model="inputValue" clearable placeholder="请输入你的旺旺号或订单编号" ></el-input> -->
+          >
+          </el-autocomplete>
+          </div>
           <div class="search-bt">查询</div>
         </div>
       </div>
@@ -125,7 +128,7 @@ export default {
 .search-out{
     width: 90%;
     height: 40px;
-    line-height: 40px;
+    line-height: 0px;
     position: absolute;
     top: -30px;
     left: 5%;
@@ -138,8 +141,13 @@ export default {
     text-align: left;
     border-radius: 5px;
     background-color: #E42727;
-    position: relative;
+    
     overflow: hidden;
+    display: flex;
+}
+.search-self-out{
+  flex: 10;
+  position: relative;
 }
 .search-self{
     color: #B2B2B2;
@@ -148,14 +156,15 @@ export default {
     display: inline-block;
     position: absolute;
     left: 2%;
-    line-height: 40px;
+    line-height:40px;
     z-index: 100;
 }
 .inline-input{
-    width: 79%; 
+  flex: 2;
+  width: 100%; 
 }
 .search-in /deep/ .el-input {
-    width: 100%;
+  width: 100%;
 }
 .search-in /deep/ .el-input__inner {
   border: 1px solid #e42727;
@@ -167,6 +176,7 @@ export default {
 }
 .search-bt{
     width: 19%;
+    line-height: 40px;
     text-align: center; 
     display: inline-block;
     background-color: #E42727;
@@ -196,7 +206,7 @@ export default {
 }
 .active-rules{
     font-size: 14px;
-    line-height: 22px;
+    line-height: 24px;
     padding: 20px;
 }
 .rules-reward{
@@ -205,7 +215,6 @@ export default {
 }
 .rules-list{
     text-align: left;
-    line-height: 22px;
 }
 .rules-remark{
      text-align: left;
@@ -216,6 +225,7 @@ export default {
     background: #FFEDAB;
     border-radius: 50%;
     display: inline-block;
+    vertical-align: middle;
 }
 @keyframes showPopup {
   0% {
