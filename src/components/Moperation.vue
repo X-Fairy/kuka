@@ -4,9 +4,19 @@
     <div class="content-in">
       <div class="search-out">
         <div class="search-in">
-          <i class="el-icon-search search-self"></i>          
-          <el-input class="search-input" v-model="inputValue" clearable placeholder="请输入你的旺旺号或订单编号" ></el-input>
-          <div class="search-bt" @click="search">查询</div>
+        
+          <div class="search-self-out">
+              <i class="el-icon-search search-self"></i>
+             <el-autocomplete
+            class="inline-input"
+            v-model="inputValue"
+            :fetch-suggestions="querySearch"
+            placeholder="请输入你的旺旺号或订单编号"
+            @select="handleSelect"
+          >
+          </el-autocomplete>
+          </div>
+          <div class="search-bt">查询</div>
         </div>
       </div>
       <div class="null-box"></div>
@@ -137,37 +147,43 @@ export default {
 }
 
 /* 搜索开始 */
-.search-out {
-  width: 90%;
-  height: 40px;
-  line-height: 40px;
-  position: absolute;
-  top: -30px;
-  left: 5%;
-  background-color: #ffffff;
-  border-radius: 5px;
+.search-out{
+    width: 90%;
+    height: 40px;
+    line-height: 0px;
+    position: absolute;
+    top: -30px;
+    left: 5%;
+    background-color: #ffffff;
+    border-radius: 5px;
 }
-.search-in {
-  width: 100%;
-  height: 100%;
-  text-align: left;
-  border-radius: 5px;
-  background-color: #e42727;
+.search-in{
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    border-radius: 5px;
+    background-color: #E42727;
+    
+    overflow: hidden;
+    display: flex;
+}
+.search-self-out{
+  flex: 10;
   position: relative;
-  overflow: hidden;
 }
-.search-self {
-  color: #b2b2b2;
-  font-size: 14px;
-  text-align: left;
-  display: inline-block;
-  position: absolute;
-  left: 2%;
-  line-height: 40px;
-  z-index: 100;
+.search-self{
+    color: #B2B2B2;
+    font-size: 14px;
+    text-align: left;
+    display: inline-block;
+    position: absolute;
+    left: 2%;
+    line-height:40px;
+    z-index: 100;
 }
-.inline-input {
-  width: 79%;
+.inline-input{
+  flex: 2;
+  width: 100%; 
 }
 .search-in /deep/ .el-input {
   width: 100%;
@@ -180,13 +196,14 @@ export default {
   padding-left: 25px;
   background: #fff5f5;
 }
-.search-bt {
-  width: 19%;
-  text-align: center;
-  display: inline-block;
-  background-color: #e42727;
-  font-size: 14px;
-  color: #ffffff;
+.search-bt{
+    width: 19%;
+    line-height: 40px;
+    text-align: center; 
+    display: inline-block;
+    background-color: #E42727;
+    font-size: 14px;
+    color: #ffffff;
 }
 /* 搜索结束 */
 
@@ -195,42 +212,42 @@ export default {
   height: 30px;
 }
 /* 活动数名 */
-.active-instructions {
-  width: 90%;
-  background: #ce3131;
-  border: 2px solid #ee6057;
-  box-sizing: border-box;
-  border-radius: 8px;
-  margin: 0 auto;
-  color: #ffe2b7;
+.active-instructions{
+    width: 90%;
+    background: #CE3131;
+    border: 2px solid #EE6057;
+    box-sizing: border-box;
+    border-radius: 8px;
+    margin: 0 auto ;
+    color: #FFE2B7;
 }
-.active-title {
-  font-size: 20px;
-  text-align: center;
-  margin-top: 22px;
+.active-title{
+    font-size: 20px;
+    text-align: center;
+    margin-top: 22px;
 }
-.active-rules {
-  font-size: 14px;
-  line-height: 22px;
-  padding: 20px;
+.active-rules{
+    font-size: 14px;
+    line-height: 24px;
+    padding: 20px;
 }
-.rules-reward {
-  text-align: left;
-  font-size: 14px;
+.rules-reward{
+    text-align: left;
+    font-size: 14px;
 }
-.rules-list {
-  text-align: left;
-  line-height: 22px;
+.rules-list{
+    text-align: left;
 }
-.rules-remark {
-  text-align: left;
+.rules-remark{
+     text-align: left;
 }
-.cir {
-  width: 6px;
-  height: 6px;
-  background: #ffedab;
-  border-radius: 50%;
-  display: inline-block;
+.cir{
+    width: 6px;
+    height: 6px;
+    background: #FFEDAB;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
 }
 @keyframes showPopup {
   0% {
