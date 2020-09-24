@@ -1,7 +1,7 @@
 import axios from 'axios'          //响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';        //配置请求头
-axios.defaults.baseURL = 'http://dsecautotools.kukahome.com';   //配置接口地址
-
+axios.defaults.baseURL = '';   //配置接口地址
+// http://dsecautotools.kukahome.com:9442
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
     //在发送请求之前做某件事
@@ -45,7 +45,7 @@ export function get(url, param) {
     return new Promise((resolve, reject) => {
         axios.get(url, {params: param})
             .then(response => {
-                resolve(response)
+                resolve(response.data)
             }, err => {
                 reject(err)
             })

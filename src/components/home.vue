@@ -1,119 +1,54 @@
 <template>
-  <div class="home" style="width: 684px; margin: auto">
-    <p class="header-title">顾家家居——中奖详情</p>
-    <img alt="宣传图" src="../assets/img/banner.png" class="banner" />
-    <p class="">获奖详情</p>
-    <div class="search">
-      <el-input
-        v-model="inputValue"
-        clearable
-        placeholder="请输入你的旺旺号或订单编号"
-      ></el-input>
-      <el-button class="btn" @click="search">查询</el-button>
-    </div>
-    <div class="content">
-      <p class="tip">恭喜你中奖了！</p>
-    </div>
-    <div class="table">
-      <el-table
-        :data="tableData"
-        border
-        style="width: 100%"
-        :header-cell-style="{ background: '#F7F7F7' }"
-      >
-        <el-table-column prop="id" label="中奖ID" width="130">
-        </el-table-column>
-        <el-table-column prop="date" label="活动时间" width="211">
-        </el-table-column>
-        <el-table-column prop="title" label="标题" width="171">
-        </el-table-column>
-        <el-table-column prop="detail" label="奖品" width="171">
-        </el-table-column>
-      </el-table>
-    </div>
+  <div class="home">
+      <component :is="ismOrpc"/>
   </div>
 </template>
 
 <script>
-import https from "../components/http";
+import PCoperation from "@/components/PCoperation";
+import Moperation from "@/components/Moperation";
 export default {
+  components: {
+    PCoperation,
+    Moperation
+  },
   data() {
     return {
-      inputValue: "",
-      tableData: [
-        {
-          id: "1234654613",
-          date: "2020-6-1至2020-6-3",
-          title: "双十一大促",
-          detail: "抱枕",
-        },
-        {
-          id: "1234654613",
-          date: "2020-6-1至2020-6-3",
-          title: "双十一大促",
-          detail: "抱枕",
-        },
-      ],
+      ismOrpc:'PCoperation'     
     };
   },
-  methods: {
-    search() {
-      let params={
-        winIdOrOrderNo:this.inputValue
+  created() {
+    if (this.isMobile()) {
+      //手机端
+      this.ismOrpc = "Moperation";
+      //设置rem
+      window.onload = function () {
+        getRem(750, 100);
+      };
+      window.onresize = function () {
+        getRem(750, 100);
+      };
+      function getRem(pwidth, prem) {
+        var html = document.getElementsByTagName("html")[0];
+        var oWidth =
+          document.body.clientWidth || document.documentElement.clientWidth;
+        html.style.fontSize = (oWidth / pwidth) * prem + "px";
       }
-      https.get("/EcAutoTools291/awardInfo", params)
-        .then((res) => {
-          console.log(res)
-        });
-     
+    } else {
+      //pc端
+      this.ismOrpc = "PCoperation";
+    }
+  },
+  methods: {
+    //判断
+    isMobile() {
+      let flag = navigator.userAgent.match(
+        /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+      );
+      console.log(flag)
+      return flag;
     },
   },
 };
 </script>
-<style  scoped>
-.header-title {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-.banner {
-  width: 684px;
-  height: 216px;
-}
 
-.title {
-  font-size: 26px;
-  margin-bottom: 12px;
-}
-.search {
-  width: 684px;
-  height: 40px;
-  display: flex;
-  margin: auto;
-}
-input {
-  width: 644px;
-}
-.search /deep/ .el-input__inner {
-  border: 1px solid #e42727;
-  box-sizing: border-box;
-  border-radius: 4px 0 0 4px;
-  padding: 0;
-  padding-left: 12px;
-  background: #fff5f5;
-}
-
-.btn {
-  width: 83px;
-  background: #e42727;
-  color: #ffffff;
-  font-size: 14px;
-
-  border-radius: 0;
-  border: 1px solid #e42727;
-}
-.content .tip {
-  font-size: 14px;
-  line-height: 22px;
-  color: #fb5353;
-}
-</style>
