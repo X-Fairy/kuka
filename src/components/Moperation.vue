@@ -4,16 +4,9 @@
     <div class="content-in">
       <div class="search-out">
         <div class="search-in">
-          <i class="el-icon-search search-self"></i>
-          <el-autocomplete
-            class="inline-input"
-            v-model="inputValue"
-            :fetch-suggestions="querySearch"
-            placeholder="请输入你的旺旺号或订单编号"
-            @select="handleSelect"
-          ></el-autocomplete>
-          <!-- <el-input class="search-input" v-model="inputValue" clearable placeholder="请输入你的旺旺号或订单编号" ></el-input> -->
-          <div class="search-bt">查询</div>
+          <i class="el-icon-search search-self"></i>          
+          <el-input class="search-input" v-model="inputValue" clearable placeholder="请输入你的旺旺号或订单编号" ></el-input>
+          <div class="search-bt" @click="search">查询</div>
         </div>
       </div>
       <div class="null-box"></div>
@@ -46,13 +39,25 @@
           <img src="../assets/img/logo.png" alt="" class="logo" />
           <p class="title">{{ tips }}</p>
           <p class="subtitle">—— 您获得 ——</p>
+          <div class="detail">
+            <div class="box" v-for="(item, index) in data" :key="index">
+              <p class="name">{{ item.activityPrizes }}</p>
+              <p class="id">中奖ID：{{ item.winid }}</p>
+              <p class="id">活动时间：{{ item.date }}</p>
+              <p class="id" style="padding-bottom: 10px">
+                活动名称：{{ item.activityTitle }}
+              </p>
+            </div>           
+          </div>
         </div>
       </div>
+      <div class="btn" @click="hidePoup">我知道了</div>
     </div>
   </div>
 </template>
 
 <script>
+import https from "../components/http";
 export default {
   data() {
     return {
@@ -70,92 +75,102 @@ export default {
           "⑤ 礼包仅限天猫店（顾家家居官方旗舰店）使用。",
         ],
       },
-      popupClass: "",
+      popupClass: "show",
       tips: "恭喜您，中奖了",
+      data: null,
     };
   },
+ 
   methods: {
-    querySearch(queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString
-        ? restaurants.filter(this.createFilter(queryString))
-        : restaurants;
-      console.log(results);
-      cb(results);
-    },
-    createFilter(queryString) {
-      return (restaurant) => {
-        return (
-          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
-          0
-        );
+    // 获取奖品详情
+    search() {
+      this.data = null;
+      let params = {
+        winIdOrOrderNo: "TATtest001",
       };
+      https.get("/api/EcAutoTools291/awardInfo", params).then((res) => {
+        if (res.data) {
+          if (res.data.length == 0) {
+            this.tips = "很遗憾，未中奖";
+            return;
+          }
+          this.data = res.data;
+          this.data.forEach((ele) => {
+            ele.date =
+              ele.activityTime.substring(0, 10) +
+              "至" +
+              ele.endTime.substring(0, 10);
+          });
+          this.tips = "恭喜你中奖了！";
+        }
+      });
     },
-    handleSelect(item) {
-      console.log(item);
-    },
+    // 关闭弹框
+    hidePoup(){
+      this.popupClass='hide'
+    }
   },
 };
 </script>
 <style   scoped>
-.mobile-content{
-    width: 100%;
-    height:100vh;
-    background-color: #B41C2C;
+.mobile-content {
+  width: 100%;
+  height: 100vh;
+  background-color: #b41c2c;
 }
-.header-title{
-    width: 100%;
-    text-align: center;
+.header-title {
+  width: 100%;
+  text-align: center;
 }
-.banner{
-    width: 100%;
-    height: 135px;
-    display: block;
-    /* margin-top: 10px; */
+.banner {
+  width: 100%;
+  height: 135px;
+  display: block;
+  /* margin-top: 10px; */
 }
-.content-in{
+.content-in {
   width: 100%;
   height: auto;
-  background-color:  #B41C2C; 
+  background-color: #b41c2c;
   padding-bottom: 30px;
   position: relative;
 }
 
 /* 搜索开始 */
-.search-out{
-    width: 90%;
-    height: 40px;
-    line-height: 40px;
-    position: absolute;
-    top: -30px;
-    left: 5%;
-    background-color: #ffffff;
-    border-radius: 5px;
+.search-out {
+  width: 90%;
+  height: 40px;
+  line-height: 40px;
+  position: absolute;
+  top: -30px;
+  left: 5%;
+  background-color: #ffffff;
+  border-radius: 5px;
 }
-.search-in{
-    width: 100%;
-    height: 100%;
-    text-align: left;
-    border-radius: 5px;
-    background-color: #E42727;
-    position: relative;
-    overflow: hidden;
+.search-in {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  border-radius: 5px;
+  background-color: #e42727;
+  position: relative;
+  overflow: hidden;
 }
-.search-self{
-    color: #B2B2B2;
-    font-size: 14px;
-    text-align: left;
-    display: inline-block;
-    position: absolute;
-    left: 2%;
-    line-height: 40px;
-    z-index: 100;
+.search-self {
+  color: #b2b2b2;
+  font-size: 14px;
+  text-align: left;
+  display: inline-block;
+  position: absolute;
+  left: 2%;
+  line-height: 40px;
+  z-index: 100;
 }
-.inline-input{
-    width: 79%; 
+.inline-input {
+  width: 79%;
 }
 .search-in /deep/ .el-input {
-    width: 100%;
+  width: 100%;
 }
 .search-in /deep/ .el-input__inner {
   border: 1px solid #e42727;
@@ -165,57 +180,57 @@ export default {
   padding-left: 25px;
   background: #fff5f5;
 }
-.search-bt{
-    width: 19%;
-    text-align: center; 
-    display: inline-block;
-    background-color: #E42727;
-    font-size: 14px;
-    color: #ffffff;
+.search-bt {
+  width: 19%;
+  text-align: center;
+  display: inline-block;
+  background-color: #e42727;
+  font-size: 14px;
+  color: #ffffff;
 }
 /* 搜索结束 */
 
-.null-box{
-    width: 100%;
-    height: 30px;
+.null-box {
+  width: 100%;
+  height: 30px;
 }
 /* 活动数名 */
-.active-instructions{
-    width: 90%;
-    background: #CE3131;
-    border: 2px solid #EE6057;
-    box-sizing: border-box;
-    border-radius: 8px;
-    margin: 0 auto ;
-    color: #FFE2B7;
+.active-instructions {
+  width: 90%;
+  background: #ce3131;
+  border: 2px solid #ee6057;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin: 0 auto;
+  color: #ffe2b7;
 }
-.active-title{
-    font-size: 20px;
-    text-align: center;
-    margin-top: 22px;
+.active-title {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 22px;
 }
-.active-rules{
-    font-size: 14px;
-    line-height: 22px;
-    padding: 20px;
+.active-rules {
+  font-size: 14px;
+  line-height: 22px;
+  padding: 20px;
 }
-.rules-reward{
-    text-align: left;
-    font-size: 14px;
+.rules-reward {
+  text-align: left;
+  font-size: 14px;
 }
-.rules-list{
-    text-align: left;
-    line-height: 22px;
+.rules-list {
+  text-align: left;
+  line-height: 22px;
 }
-.rules-remark{
-     text-align: left;
+.rules-remark {
+  text-align: left;
 }
-.cir{
-    width: 6px;
-    height: 6px;
-    background: #FFEDAB;
-    border-radius: 50%;
-    display: inline-block;
+.cir {
+  width: 6px;
+  height: 6px;
+  background: #ffedab;
+  border-radius: 50%;
+  display: inline-block;
 }
 @keyframes showPopup {
   0% {
@@ -253,7 +268,7 @@ export default {
   }
 
   100% {
-    transform: translateY(0);
+    transform: translateY(200px);
   }
 }
 .popup {
@@ -262,7 +277,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 20;
+  z-index: 101;
   display: none;
 }
 .mask {
@@ -270,25 +285,21 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 21;
+  z-index: 102;
   background-color: rgba(0, 0, 0, 0.6);
 }
 .layer {
   position: fixed;
-  z-index: 22;
-  width: 311px;
-  height: 415px;
+  z-index: 103;
+  left: 32px;
+  right: 32px;
   background: #fff;
-  top: 50%;
-  margin-top: 200px;
-  left: 50%;
-  margin-left: -155px;
+  top: 70%;
   background: url("../assets/img/bg.png") no-repeat center;
 }
 .layer .info {
-  /* position: relative; */
   width: 100%;
-  height: 100%;
+  padding-bottom: 50px;
 }
 .border1,
 .border2 {
@@ -324,13 +335,52 @@ export default {
   font-size: 20px;
   font-weight: 550;
   text-align: center;
-  padding: 20px 0 0;
+  padding: 20px 0 10px;
 }
 .subtitle {
   text-align: center;
   color: #b98453;
   font-size: 14px;
   font-weight: 500;
+}
+.detail {
+  max-height: 290px;
+  overflow-y: scroll;
+  position: relative;
+}
+.info .box {
+  width: 90%;
+  background: #d81f1f;
+  border-radius: 4px;
+  background: url("../assets/img/bg1.png") center;
+  margin: 12px auto;
+  text-align: left;
+}
+.info .box .name {
+  font-size: 20px;
+  padding: 16px;
+  color: #ffdaae;
+  font-weight: 550;
+}
+.info .box .id {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #f3ccc0;
+  padding: 0 16px;
+}
+.btn {
+  position: fixed;
+  width: 80%;
+  height: 40px;
+  line-height: 40px;
+  left: 10%;
+  top: 90%;
+  z-index: 103;
+  background: #e42727;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #ffdaae;
 }
 .show {
   display: block;
@@ -344,7 +394,7 @@ export default {
 }
 
 .hide {
-  display: block;
+  display: none;
 }
 .hide .mask {
   animation: hidePopup 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
