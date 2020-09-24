@@ -14,7 +14,7 @@
         @select="handleSelect"
       ></el-autocomplete>
                 <!-- <el-input class="search-input" v-model="inputValue" clearable placeholder="请输入你的旺旺号或订单编号" ></el-input> -->
-                <div class="search-bt" >查询</div>
+                <div class="search-bt">查询</div>
             </div>
         </div>
         <div class="null-box"></div>
