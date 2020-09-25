@@ -7,7 +7,6 @@
       <el-input
         focus
         v-model="inputValue"
-        clearable
         placeholder="请输入你的旺旺号或订单编号"
       ></el-input>
       <!-- <el-autocomplete
@@ -25,8 +24,8 @@
     <div class="content">
       <div class="active-instructions">
         <div class="active-rules">
-          <div class="rules-reward">{{ rulesObj.reward }}</div>
-          <div class="rules-remark">{{ rulesObj.remark }}</div>
+          <!-- <div class="rules-reward">{{ rulesObj.reward }}</div> -->
+          <!-- <div class="rules-remark">{{ rulesObj.remark }}</div> -->
           <div
             class="rules-list"
             v-for="(it, index) in rulesObj.rulesData"

@@ -10,7 +10,6 @@
               class="inline-input"
               placeholder="请输入你的旺旺号或订单编号"
               v-model="inputValue"
-              clearable
             >
             </el-input>
           </div>
@@ -19,14 +18,14 @@
       </div>
       <div class="null-box"></div>
       <div class="active-instructions">
-        <div class="active-title">
+        <!-- <div class="active-title">
           <div class="cir"></div>
           {{ rulesObj.title }}
           <div class="cir"></div>
-        </div>
+        </div> -->
         <div class="active-rules">
-          <div class="rules-reward">{{ rulesObj.reward }}</div>
-          <div class="rules-remark">{{ rulesObj.remark }}</div>
+          <!-- <div class="rules-reward">{{ rulesObj.reward }}</div>
+          <div class="rules-remark">{{ rulesObj.remark }}</div> -->
           <div
             class="rules-list"
             v-for="(it, index) in rulesObj.rulesData"
