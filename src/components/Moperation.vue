@@ -71,7 +71,7 @@
         <p class="title">{{ tips }}</p>
         <div class="btn2" @click="hidePoup">我知道了</div>
       </div>
-      <div v-if="data">
+      <div v-if="data" class="bottomBtn">
         <div class="btn" @click="hidePoup" v-if="data.length > 2">我知道了</div>
       </div>
     </div>
@@ -369,7 +369,9 @@ export default {
   width: 90%;
   background: #d81f1f;
   border-radius: 4px;
-  background: url("../assets/img/bg1.png") center;
+  background-image: url("../assets/img/bg1.png");
+   background-repeat: no-repeat;   
+    background-size: 100% 100%;   
   margin: 12px auto;
   text-align: left;
 }
@@ -392,7 +394,7 @@ export default {
   height: 40px;
   line-height: 40px;
   left: 10%;
-  top: 90%;
+  top: 85%;
   z-index: 103;
   background: #e42727;
   border-radius: 4px;
@@ -464,7 +466,9 @@ export default {
 .show .nodata {
   animation: showLayer 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
 }
-
+/* .show .bottomBtn {
+  animation: showLayer 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
+} */
 .hide {
   display: block;
 }
@@ -476,6 +480,9 @@ export default {
   animation: hideLayer 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
 }
 .hide .nodata {
+  animation: hideLayer 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
+}
+.hide .bottomBtn {
   animation: hideLayer 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
 }
 .none {
