@@ -8,6 +8,7 @@ axios.interceptors.request.use((config) => {
     //在发送请求之前做某件事
     if(config.method  === 'post'){
         config.data = qs.stringify(config.data);
+        console.log( config.data)
     }
     return config;
 },(error) =>{

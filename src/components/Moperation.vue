@@ -55,14 +55,25 @@
               <p class="id" style="padding-bottom: 10px">
                 活动名称：{{ item.activityTitle }}
               </p>
-            </div>
+            </div>  
+          </div>
+          <div
+            class="btn2"
+            @click="hidePoup"
+            v-if="data.length <= 2"
+            style="margin-top: 30px"
+          >
+            我知道了
           </div>
         </div>
       </div>
       <div v-else class="nodata">
-
+        <p class="title">{{ tips }}</p>
+        <div class="btn2" @click="hidePoup">我知道了</div>
       </div>
-      <div class="btn" @click="hidePoup" v-if="data">我知道了</div>
+      <div v-if="data">
+        <div class="btn" @click="hidePoup" v-if="data.length > 2">我知道了</div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,50 +81,40 @@
 <script>
 import https from "../components/http";
 export default {
+  name: "Moperation",
+  props: {
+    rulesObj: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
+  },
   data() {
     return {
       inputValue: "",
       restaurants: [],
-      rulesObj: {
-        title: "活动说明",
-        reward: "购买1元礼包且10.1日0-2点实付满2千元即可送乳胶枕一个",
-        remark: "活动细则：",
-        rulesData: [
-          "① 9.22-9.30日活动期间每个用户ID限拍一个1元礼包，且仅适用1次，多买无效；",
-          "② 如拍下后，若未在活动期间成功支付商品，则视为自动放弃1元特权；",
-          "③ 赠品将于购买商品确认收货后发出，如有问题可详询客服，实付金额不包括已使用的优惠券、购物津贴、拍下立减、折扣、红包、补贴、基金、五包费等费用；",
-          "④ 若发生退款或退货行为，赠品将不予以发货；",
-          "⑤ 礼包仅限天猫店（顾家家居官方旗舰店）使用。",
-        ],
-      },
       popupClass: "",
       tips: "恭喜您，中奖了",
       data: null,
     };
   },
-  created(){
-    // this.getRules()
-  },
+  created() {},
   methods: {
-    // 获取规则
-    getRules(){
-      https.post("/api/EcAutoTools/getDocument", '').then((res) => {
-       console.log(res)
-      });
-    },
     // 获取奖品详情
     search() {
       this.data = null;
+      // TATtest001
       let params = {
-        winIdOrOrderNo: "TATtest001",
+        winIdOrOrderNo: this.inputValue,
       };
       https.get("/api/EcAutoTools291/awardInfo", params).then((res) => {
         if (res.data) {
+          this.popupClass = "show";
           if (res.data.length == 0) {
-            this.tips = "很遗憾，未中奖";
+            this.tips = "很遗憾，未中奖！";
             return;
           }
-          this.popupClass = "show";
           this.data = res.data;
           this.data.forEach((ele) => {
             ele.date =
@@ -127,7 +128,10 @@ export default {
     },
     // 关闭弹框
     hidePoup() {
-      this.popupClass = "hide";
+      this.popupClass = 'hide';
+				setTimeout(() => {
+					this.popupClass = 'none';
+				}, 300);
     },
   },
 };
@@ -166,6 +170,7 @@ export default {
   left: 5%;
   background-color: #ffffff;
   border-radius: 5px;
+  filter: drop-shadow(0px 5px 12px rgba(100, 0, 0, 0.5));
 }
 .search-in {
   width: 100%;
@@ -261,11 +266,11 @@ export default {
 }
 @keyframes showPopup {
   0% {
-    opacity: 0;
+    
   }
 
   100% {
-    opacity: 1;
+    
   }
 }
 
@@ -279,25 +284,7 @@ export default {
   }
 }
 
-@keyframes showLayer {
-  0% {
-    transform: translateY(0);
-  }
 
-  100% {
-    transform: translateY(-100%);
-  }
-}
-
-@keyframes hideLayer {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(200px);
-  }
-}
 .popup {
   position: fixed;
   top: 0;
@@ -315,18 +302,21 @@ export default {
   z-index: 102;
   background-color: rgba(0, 0, 0, 0.6);
 }
-.layer{
+.layer {
   position: fixed;
   z-index: 103;
   left: 32px;
   right: 32px;
   background: #fff;
-  top: 70%;
-  background: url("../assets/img/bg.png") no-repeat center;
+  top: 80%; 
+  /* top: calc(50% - 400px / 2); */
+  background: linear-gradient(180deg, #fff5e7 0%, #dca97b 100%);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
 }
 .layer .info {
   width: 100%;
-  padding-bottom: 50px;
+  padding-bottom: 30px;
 }
 .border1,
 .border2 {
@@ -409,6 +399,58 @@ export default {
   font-size: 16px;
   color: #ffdaae;
 }
+
+.nodata {
+  position: fixed;
+  z-index: 103;
+  background: #fff;
+  width: 289px;
+  height: 143px;
+  left: calc(50% - 289px / 2);
+  top: 50%;
+  margin-top: 70px;
+  border-radius: 4px;
+}
+.nodata .title {
+  font-size: 16px;
+  margin: 20px 0 40px;
+  font-weight: 550;
+}
+.btn2 {
+  position: relative;
+  width: 80%;
+  height: 40px;
+  line-height: 40px;
+  background: #e42727;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #ffdaae;
+  margin: auto;
+  margin-top: 40px;
+}
+@keyframes showLayer {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 1;
+  }
+}
+
+@keyframes hideLayer {
+  0% {
+    transform: translateY(-100%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(200px);
+    opacity: 0;
+  }
+}
 .show {
   display: block;
 }
@@ -419,9 +461,12 @@ export default {
 .show .layer {
   animation: showLayer 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
 }
+.show .nodata {
+  animation: showLayer 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
+}
 
 .hide {
-  display: none;
+  display: block;
 }
 .hide .mask {
   animation: hidePopup 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
@@ -430,16 +475,10 @@ export default {
 .hide .layer {
   animation: hideLayer 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
 }
-
+.hide .nodata {
+  animation: hideLayer 0.3s cubic-bezier(0, 0.79, 0.59, 1) both;
+}
 .none {
   display: none;
-}
-.nodata{
-  position: fixed;
-  z-index: 103;
-  left: 32px;
-  right: 32px;
-  background: #fff;
-  top: 70%;
 }
 </style>

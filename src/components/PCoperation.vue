@@ -1,16 +1,16 @@
 <template>
-  <div class="home" style="width: 684px; margin: auto">
+  <div class="home" style="width: 684px; margin: auto;margin-top:16px;">
     <p class="header-title">顾家家居——中奖详情</p>
     <img alt="宣传图" src="../assets/img/banner.png" class="banner" />
     <p class="title">获奖详情</p>
     <div class="search">
-      <!-- <el-input
+      <el-input
         focus
         v-model="inputValue"
         clearable
         placeholder="请输入你的旺旺号或订单编号"
-      ></el-input> -->
-      <el-autocomplete
+      ></el-input>
+      <!-- <el-autocomplete
         class="inline-input"
         autofocus="true"
         v-model="inputValue"
@@ -18,13 +18,27 @@
         placeholder="请输入你的旺旺号或订单编号"
         @select="handleSelect"
         @keyup.enter.native="search"
-      ></el-autocomplete>
+      ></el-autocomplete> -->
       <el-button class="btn" @click="search">查询</el-button>
     </div>
+
     <div class="content">
+      <div class="active-instructions">
+        <div class="active-rules">
+          <div class="rules-reward">{{ rulesObj.reward }}</div>
+          <div class="rules-remark">{{ rulesObj.remark }}</div>
+          <div
+            class="rules-list"
+            v-for="(it, index) in rulesObj.rulesData"
+            :key="index"
+          >
+            {{ it }}
+          </div>
+        </div>
+      </div>
       <p class="tip" v-if="tips">{{ tips }}</p>
     </div>
-    <div class="table" v-if="tableData">
+    <div class="table" v-if="tableData" style="margin-top:20px;">
       <el-table
         :data="tableData"
         border
@@ -47,6 +61,15 @@
 <script>
 import https from "../components/http";
 export default {
+  name: "PCoperation",
+  props: {
+    rulesObj: {
+      type: Object,
+      default: ()=>{
+        return {}
+      },
+    },
+  },
   data() {
     return {
       inputValue: "",
@@ -56,25 +79,6 @@ export default {
     };
   },
   methods: {
-    querySearch(queryString, cb) {     
-      var restaurants = this.restaurants;
-      var results = queryString
-        ? restaurants.filter(this.createFilter(queryString))
-        : restaurants;
-      console.log(results);
-      cb(results);
-    },
-    createFilter(queryString) {
-      return (restaurant) => {
-        return (
-          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
-          0
-        );
-      };
-    },
-    handleSelect(item) {
-      console.log(item);
-    },
     search() {
       this.tableData = null;
       let params = {
@@ -116,7 +120,7 @@ export default {
 
 .title {
   font-size: 26px;
-  margin-bottom: 12px;
+  margin:40px 0 12px;
   font-weight: 550;
 }
 .search {
@@ -127,7 +131,7 @@ export default {
 }
 
 .search /deep/ .el-input__inner {
-  width: 600px;
+  width: 610px;
   border: 1px solid #e42727;
   box-sizing: border-box;
   border-radius: 4px 0 0 4px;
@@ -145,9 +149,30 @@ export default {
   border-radius: 0;
   border: 1px solid #e42727;
 }
-.content .tip {
+.content{
+  margin-top: 16px;
+}
+.content .tip{
   font-size: 14px;
   line-height: 22px;
   color: #fb5353;
+  font-weight: 550;
+  margin-top: 20px;
+}
+/* 活动规则 */
+.active-rules {
+  color: #737373;
+  font-size: 12px;
+  line-height: 22px;
+}
+.rules-reward {
+  text-align: left;
+  font-size: 14px;
+}
+.rules-list {
+  text-align: left;
+}
+.rules-remark {
+  text-align: left;
 }
 </style>
