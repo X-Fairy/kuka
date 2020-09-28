@@ -54,7 +54,7 @@
               <p class="id" style="padding-bottom: 10px">
                 活动名称：{{ item.activityTitle }}
               </p>
-            </div>  
+            </div>
           </div>
           <div
             class="btn2"
@@ -127,15 +127,19 @@ export default {
     },
     // 关闭弹框
     hidePoup() {
-      this.popupClass = 'hide';
-				setTimeout(() => {
-					this.popupClass = 'none';
-				}, 300);
+      this.popupClass = "hide";
+      setTimeout(() => {
+        this.popupClass = "none";
+      }, 300);
     },
   },
 };
 </script>
 <style   scoped>
+body {
+  width: 100%;
+  height: 100%;
+}
 .mobile-content {
   width: 100%;
   height: 100vh;
@@ -265,11 +269,9 @@ export default {
 }
 @keyframes showPopup {
   0% {
-    
   }
 
   100% {
-    
   }
 }
 
@@ -282,7 +284,6 @@ export default {
     opacity: 0;
   }
 }
-
 
 .popup {
   position: fixed;
@@ -307,7 +308,7 @@ export default {
   left: 32px;
   right: 32px;
   background: #fff;
-  top: 80%; 
+  top: 80%;
   /* top: calc(50% - 400px / 2); */
   background: linear-gradient(180deg, #fff5e7 0%, #dca97b 100%);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
@@ -369,8 +370,8 @@ export default {
   background: #d81f1f;
   border-radius: 4px;
   background-image: url("../assets/img/bg1.png");
-   background-repeat: no-repeat;   
-    background-size: 100% 100%;   
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   margin: 12px auto;
   text-align: left;
 }
