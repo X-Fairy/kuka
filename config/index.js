@@ -9,7 +9,7 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
+    assetsPublicPath: '/',
     proxyTable: {
       '/api': {
         target: 'http://dsecautotools.kukahome.com:9443/', //你要跨域的网址  比如  'http://news.baidu.com',

@@ -1,7 +1,7 @@
 import axios from 'axios'          //响应时间
 import qs from 'qs'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';        //配置请求头
-axios.defaults.baseURL = 'http://dsecautotools.kukahome.com:9443';   //配置接口地址
+axios.defaults.baseURL = process.env.BASE_API;   //配置接口地址
 // http://dsecautotools.kukahome.com:9443/EcAutoTools/jackpotQuery/index.html
 // http://dsecautotools.kukahome.com:9442
 //POST传参序列化(添加请求拦截器)
