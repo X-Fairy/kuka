@@ -57,7 +57,7 @@ export default {
       return flag;
     },
     getRules() {
-      https.post("/api/EcAutoTools291/getDocument").then((res) => {
+      https.post("/EcAutoTools/getDocument").then((res) => {
         this.rulesObj.rulesData = res.data[0].kukaAward.cpoyWriter.split("\n");
         for (let i = 0; i < this.rulesObj.rulesData.length; i++) {
           this.rulesObj.rulesData[i]=this.rulesObj.rulesData[i].substring(0,this.rulesObj.rulesData[i].length-3);

@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: './',
     proxyTable: {
       '/api': {
-        target: 'http://dsecautotools.kukahome.com:9442/', //你要跨域的网址  比如  'http://news.baidu.com',
+        target: 'http://dsecautotools.kukahome.com:9443/', //你要跨域的网址  比如  'http://news.baidu.com',
         changeOrigin: true, //这个参数是用来回避跨站问题的，配置完之后发请求时会自动修改http header里面的host，但是不会修改别的
         pathRewrite: {
             '^/api': '' //路径的替换规则

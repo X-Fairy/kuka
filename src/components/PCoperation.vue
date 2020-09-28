@@ -83,7 +83,7 @@ export default {
       let params = {
         winIdOrOrderNo: this.inputValue,
       };
-      https.get("/api/EcAutoTools291/awardInfo", params).then((res) => {
+      https.get("/EcAutoTools/awardInfo", params).then((res) => {
         if (res.data) {
           if (res.data.length == 0) {
             this.tips = "很遗憾，未中奖";
