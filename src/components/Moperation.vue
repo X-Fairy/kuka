@@ -5,7 +5,7 @@
       <div class="search-out">
         <div class="search-in">
           <div class="search-self-out">
-            <i class="el-icon-search search-self"></i>
+            <!-- <i class="el-icon-search search-self"></i> -->
             <el-input
               class="inline-input"
               placeholder="请输入你的旺旺号或订单编号"
@@ -108,8 +108,9 @@ export default {
         winIdOrOrderNo: this.inputValue,
       };
       https.get("/EcAutoTools/awardInfo", params).then((res) => {
+        this.popupClass = "show";
         if (res.data) {
-          this.popupClass = "show";
+          
           if (res.data.length == 0) {
             this.tips = "很遗憾，未中奖！";
             return;
@@ -122,6 +123,8 @@ export default {
               ele.endTime.substring(0, 10);
           });
           this.tips = "恭喜你中奖了！";
+        }else{
+          this.tips=res.msg
         }
       });
     },
@@ -211,7 +214,7 @@ body {
   box-sizing: border-box;
   border-radius: 4px 0 0 4px;
   padding: 0;
-  padding-left: 25px;
+  padding-left: 10px;
   background: #fff5f5;
 }
 .search-bt {

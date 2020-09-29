@@ -5,9 +5,9 @@
     <p class="title">获奖详情</p>
     <div class="search">
       <el-input
-        focus
         v-model="inputValue"
         placeholder="请输入你的旺旺号或订单编号"
+        autocomplete="off"
       ></el-input>
       <!-- <el-autocomplete
         class="inline-input"
@@ -37,11 +37,12 @@
       </div>
       <p class="tip" v-if="tips">{{ tips }}</p>
     </div>
-    <div class="table" v-if="tableData" style="margin-top:20px;">
+    <div class="table"  style="margin-top:20px;">
       <el-table
         :data="tableData"
         border
         style="width: 100%"
+        empty-text="暂无中奖数据"
         :header-cell-style="{ background: '#F7F7F7' }"
       >
         <el-table-column prop="winid" label="中奖ID" width="130">
@@ -76,6 +77,9 @@ export default {
       tableData: null,
       tips: null,
     };
+  },
+  mounted(){
+    this.inputValue=""
   },
   methods: {
     search() {
@@ -173,5 +177,8 @@ export default {
 }
 .rules-remark {
   text-align: left;
+}
+.table{
+  padding-bottom: 50px;
 }
 </style>
