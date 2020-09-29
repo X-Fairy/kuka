@@ -1,6 +1,6 @@
 <template>
   <div class="mobile-content">
-    <img alt="宣传图" src="../assets/img/banner.png" class="banner" />
+    <img alt="宣传图" :src="banner" class="banner" />
     <div class="content-in">
       <div class="search-out">
         <div class="search-in">
@@ -88,6 +88,10 @@ export default {
         return {};
       },
     },
+    banner: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
@@ -110,7 +114,6 @@ export default {
       https.get("/EcAutoTools/awardInfo", params).then((res) => {
         this.popupClass = "show";
         if (res.data) {
-          
           if (res.data.length == 0) {
             this.tips = "很遗憾，未中奖！";
             return;
@@ -123,8 +126,8 @@ export default {
               ele.endTime.substring(0, 10);
           });
           this.tips = "恭喜你中奖了！";
-        }else{
-          this.tips=res.msg
+        } else {
+          this.tips = res.msg;
         }
       });
     },

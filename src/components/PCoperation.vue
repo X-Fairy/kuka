@@ -1,7 +1,7 @@
 <template>
-  <div class="home" style="width: 684px; margin: auto;margin-top:16px;">
+  <div class="home" style="width: 684px; margin: auto; margin-top: 16px">
     <p class="header-title">顾家家居——中奖详情</p>
-    <img alt="宣传图" src="../assets/img/banner.png" class="banner" />
+    <img alt="宣传图" :src="banner" class="banner" />
     <p class="title">获奖详情</p>
     <div class="search">
       <el-input
@@ -37,7 +37,7 @@
       </div>
       <p class="tip" v-if="tips">{{ tips }}</p>
     </div>
-    <div class="table"  style="margin-top:20px;">
+    <div class="table" style="margin-top: 20px">
       <el-table
         :data="tableData"
         border
@@ -65,9 +65,13 @@ export default {
   props: {
     rulesObj: {
       type: Object,
-      default: ()=>{
-        return {}
+      default: () => {
+        return {};
       },
+    },
+    banner: {
+      type: String,
+      default: "",
     },
   },
   data() {
@@ -78,8 +82,8 @@ export default {
       tips: null,
     };
   },
-  mounted(){
-    this.inputValue=""
+  mounted() {
+    this.inputValue = "";
   },
   methods: {
     search() {
@@ -123,7 +127,7 @@ export default {
 
 .title {
   font-size: 26px;
-  margin:40px 0 12px;
+  margin: 40px 0 12px;
   font-weight: 550;
 }
 .search {
@@ -152,10 +156,10 @@ export default {
   border-radius: 0;
   border: 1px solid #e42727;
 }
-.content{
+.content {
   margin-top: 16px;
 }
-.content .tip{
+.content .tip {
   font-size: 14px;
   line-height: 22px;
   color: #fb5353;
@@ -178,7 +182,7 @@ export default {
 .rules-remark {
   text-align: left;
 }
-.table{
+.table {
   padding-bottom: 50px;
 }
 </style>

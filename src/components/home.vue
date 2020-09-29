@@ -62,8 +62,8 @@ export default {
         for (let i = 0; i < this.rulesObj.rulesData.length; i++) {
           this.rulesObj.rulesData[i]=this.rulesObj.rulesData[i].substring(0,this.rulesObj.rulesData[i].length-3);
         }
-        this.banner= res.data[0].kukaAward.filePath
-        console.log(this.rulesObj.rulesData);
+        this.banner= res.data[0].filePath
+        console.log(this.banner)
       });
     },
   },
