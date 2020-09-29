@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <component :is="ismOrpc" :rulesObj="rulesObj" :banner="banner"/>
+    <component :is="ismOrpc" :rulesObj="rulesObj" :banner="banner" />   
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       ismOrpc: "PCoperation",
-      banner:'',
+      banner: "",
       rulesObj: {
         title: "活动说明",
         reward: "购买1元礼包且10.1日0-2点实付满2千元即可送乳胶枕一个",
@@ -60,10 +60,14 @@ export default {
       https.post("/EcAutoTools/getDocument").then((res) => {
         this.rulesObj.rulesData = res.data[0].kukaAward.cpoyWriter.split("\n");
         for (let i = 0; i < this.rulesObj.rulesData.length; i++) {
-          this.rulesObj.rulesData[i]=this.rulesObj.rulesData[i].substring(0,this.rulesObj.rulesData[i].length-3);
+          if (i != this.rulesObj.rulesData.length - 1) {
+            this.rulesObj.rulesData[i] = this.rulesObj.rulesData[i].substring(
+              0,
+              this.rulesObj.rulesData[i].length - 2
+            );
+          }
         }
-        this.banner= res.data[0].filePath
-        console.log(this.banner)
+        this.banner = res.data[0].filePath;
       });
     },
   },
