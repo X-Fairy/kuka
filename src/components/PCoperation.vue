@@ -82,7 +82,7 @@ export default {
       tips: null,
     };
   },
-  mounted() {
+  created() {
     this.inputValue = "";
   },
   methods: {
@@ -152,9 +152,14 @@ export default {
   background: #e42727;
   color: #ffffff;
   font-size: 14px;
-
   border-radius: 0;
   border: 1px solid #e42727;
+}
+.btn:hover {
+  border: 1px solid #e42727;
+  background: #e42727;
+  opacity: 0.8;
+  color: #ffffff;
 }
 .content {
   margin-top: 16px;
